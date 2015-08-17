@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<project default="init" name="Test Project">
+    <description>
+For test.....
+    </description>
+    <target name="init" description="hehe">
+        <javac srcdir="./"/>
+    </target>
+</project>
