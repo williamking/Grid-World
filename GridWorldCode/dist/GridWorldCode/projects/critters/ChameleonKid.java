@@ -28,14 +28,8 @@ import java.util.ArrayList;
  * it moves through the grid. <br />
  * The implementation of this class is testable on the AP CS A and AB exams.
  */
-public class ChameleonCritter extends Critter
+public class ChameleonKid extends ChameleonCritter
 {
-    /**
-     * Randomly selects a neighbor and changes this critter's color to be the
-     * same as that neighbor's. If there are no neighbors, no action is taken.
-     */
-
-    private static final double DARKENING_FACTOR = 0.05;
 
     public void processActors(ArrayList<Actor> actors)
     {
@@ -44,26 +38,20 @@ public class ChameleonCritter extends Critter
             getDarker();
             return;
         }
-        int r = (int) (Math.random() * n);
-
-        Actor other = actors.get(r);
-        setColor(other.getColor());
+        int find = 0;
+        for (int i = 0; i < actors.size(); ++i) {
+            Actor other = actors.get(i);
+            Location loc = getLocation();    
+            Location otherLoc = other.getLocation();
+            if ((loc.getDirectionToward(otherLoc) - getDirection()) % Location.HALF_CIRCLE == 0) {
+                find = 1;
+                System.out.println("hehe");
+                setColor(other.getColor());
+                break;
+            }
+        }
+        if (find == 0)
+            getDarker();
     }
 
-    /**
-     * Turns towards the new location as it moves.
-     */
-    public void makeMove(Location loc)
-    {
-        setDirection(getLocation().getDirectionToward(loc));
-        super.makeMove(loc);
-    }
-    
-    public void getDarker() {
-            Color c = getColor();
-            int red = (int) (c.getRed() * (1 - DARKENING_FACTOR));
-            int green = (int) (c.getGreen() * (1 - DARKENING_FACTOR));
-            int blue = (int) (c.getBlue() * (1 - DARKENING_FACTOR));
-            setColor(new Color(red, green, blue)); 
-    }
 }

@@ -28,14 +28,12 @@ import java.util.ArrayList;
  * it moves through the grid. <br />
  * The implementation of this class is testable on the AP CS A and AB exams.
  */
-public class ChameleonCritter extends Critter
+public class BlusterCritter extends Critter
 {
     /**
      * Randomly selects a neighbor and changes this critter's color to be the
      * same as that neighbor's. If there are no neighbors, no action is taken.
      */
-
-    private static final double DARKENING_FACTOR = 0.05;
 
     public void processActors(ArrayList<Actor> actors)
     {
