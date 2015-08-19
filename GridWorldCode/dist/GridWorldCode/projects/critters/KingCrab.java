@@ -19,6 +19,7 @@
 import info.gridworld.actor.Actor;
 import info.gridworld.actor.Critter;
 import info.gridworld.grid.Location;
+import info.gridworld.grid.BoundedGrid;
 
 import java.awt.Color;
 import java.util.ArrayList;
@@ -28,48 +29,29 @@ import java.util.ArrayList;
  * it moves through the grid. <br />
  * The implementation of this class is testable on the AP CS A and AB exams.
  */
-public class BlusterCritter extends Critter
+public class KingCrab extends CrabCritter
 {
     /**
      * Randomly selects a neighbor and changes this critter's color to be the
      * same as that neighbor's. If there are no neighbors, no action is taken.
      */
 
-    private int warningNum;
-
-    private static final double DARKENING_FACTOR = 0.05;
-
-
-    public BlusterCritter(int c) {
-        warningNum = c;
-    }
-
     public void processActors(ArrayList<Actor> actors)
     {
         int n = actors.size();
-        if (n < warningNum) {
-            getBrighter();
-        } else {
-            getDarker();
+        if (n == 0) {
+            return;
+        }
+        for (int i = 0; i < actors.size(); ++i) {
+            Actor other = actors.get(i);
+            Location loc = getLocation();    
+            Location otherLoc = other.getLocation();
+            Location newLoc = otherLoc.getAdjacentLocation(loc.getDirectionToward(otherLoc));
+            if (other.getGrid().isValid(newLoc) && other.getGrid().get(newLoc) == null)
+                other.moveTo(newLoc);
+            else
+                other.removeSelfFromGrid();
         }
     }
-
-    /**
-     * Turns towards the new location as it moves.
-     */    
-    public void getDarker() {
-            Color c = getColor();
-            int red = (int) (c.getRed() * (1 - DARKENING_FACTOR));
-            int green = (int) (c.getGreen() * (1 - DARKENING_FACTOR));
-            int blue = (int) (c.getBlue() * (1 - DARKENING_FACTOR));
-            setColor(new Color(red, green, blue)); 
-    }
-    
-    public void getBrighter() {
-            Color c = getColor();
-            int red = (int) (c.getRed() * (1 + DARKENING_FACTOR));
-            int green = (int) (c.getGreen() * (1 + DARKENING_FACTOR));
-            int blue = (int) (c.getBlue() * (1 + DARKENING_FACTOR));
-            setColor(new Color(red, green, blue)); 
-    }
+  
 }

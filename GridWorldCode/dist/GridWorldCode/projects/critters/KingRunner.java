@@ -26,7 +26,7 @@ import java.awt.Color;
  * This class runs a world that contains chameleon critters. <br />
  * This class is not tested on the AP CS A and AB exams.
  */
-public class BlusterRunner
+public class KingRunner
 {
     public static void main(String[] args)
     {
@@ -37,8 +37,8 @@ public class BlusterRunner
         world.add(new Location(5, 5), new Rock(Color.PINK));
         world.add(new Location(1, 5), new Rock(Color.RED));
         world.add(new Location(7, 2), new Rock(Color.YELLOW));
-        world.add(new Location(4, 4), new BlusterCritter(2));
-        world.add(new Location(5, 8), new BlusterCritter(3));
+        world.add(new Location(4, 4), new KingCrab());
+        world.add(new Location(5, 8), new KingCrab());
         world.show();
     }
 }
