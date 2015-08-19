@@ -18,12 +18,12 @@ public class ZBug extends Bug {
             move();
             ++steps;
         } else {
-            if (period == 0) {
+            if (period == 0 && steps == maxSteps) {
                 turn();
                 turn();
                 turn();
             }
-            if (period == 1) {
+            if (period == 1 && steps == maxSteps) {
                 turn();
                 turn();
                 turn();
