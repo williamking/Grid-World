@@ -1,9 +1,200 @@
 <?xml version="1.0"?>
-<project default="init" name="Test Project">
+<project default="run" name="Test Project" basedir=".">
     <description>
-For test.....
+        The project...
     </description>
-    <target name="init" description="hehe">
-        <javac srcdir="./"/>
+    
+    <property name="base" location="${basedir}"/>
+    <property name="calculator" location="${base}/calculator"/>
+    <property name="GridWorld" location="${base}/GridWorldCode"/>
+    <property name="helloworld" location="${base}/helloworld"/>
+    <property name="boxBug" location="${GridWorld}/projects/boxBug"/>
+    <property name="circleBug" location="${GridWorld}/projects/circleBug"/>
+    <property name="spiralBug" location="${GridWorld}/projects/spiralBug"/>
+    <property name="dancingBug" location="${GridWorld}/projects/dancingBug"/>
+    <property name="zBug" location="${GridWorld}/projects/zBug"/>
+    <property name="distjar" location="${GridWorld}/projects/distjar"/>
+
+    <path id="gridworld.jar">
+        <pathelement location="${GridWorld}/gridworld.jar"/>
+    </path>
+
+    <target name="init" description="Create dir">
+        <mkdir dir="${calculator}/src"/>
+        <mkdir dir="${GridWorld}/src"/>
+        <mkdir dir="${helloworld}/src"/>
+        <mkdir dir="${boxBug}/src"/>
+        <mkdir dir="${circleBug}/src"/>
+        <mkdir dir="${spiralBug}/src"/>
+        <mkdir dir="${dancingBug}/src"/>
+        <mkdir dir="${zBug}/src"/>
+        <mkdir dir="${distjar}"/>
     </target>
+
+    <target name="compile" depends="init">
+        <javac srcdir="${calculator}" destdir="${calculator}/src"/>
+        <javac srcdir="${helloworld}" destdir="${helloworld}/src"/>
+        <javac srcdir="${dancingBug}" destdir="${dancingBug}/src"><classpath refid="gridworld.jar"/></javac>
+        <javac srcdir="${boxBug}" destdir="${boxBug}/src"><classpath refid="gridworld.jar"/></javac>
+        <javac srcdir="${spiralBug}" destdir="${spiralBug}/src"><classpath refid="gridworld.jar"/></javac>
+        <javac srcdir="${zBug}" destdir="${zBug}/src"><classpath refid="gridworld.jar"/></javac>
+        <javac srcdir="${circleBug}" destdir="${circleBug}/src"><classpath refid="gridworld.jar"/></javac>
+    </target>
+
+    <target name="dist" depends="compile">
+        <jar destfile="${distjar}/calculator.jar" basedir="${calculator}/src">
+            <manifest>
+                <attribute name="Built-by" value="${user.name}"/>
+                <attribute name="Main-class" value="calculator"/>
+            </manifest>
+        </jar>
+        <jar destfile="${distjar}/helloworld.jar" basedir="${helloworld}/src">
+            <manifest>
+                <attribute name="Built-by" value="${user.name}"/>
+                <attribute name="Main-class" value="helloworld"/>
+            </manifest>
+        </jar>
+        <jar destfile="${distjar}/BoxBug.jar" basedir="${boxBug}/src">
+            <manifest>
+                <attribute name="Built-by" value="${user.name}"/>
+                <attribute name="Main-class" value="BoxBugRunner"/>
+            </manifest>
+        </jar>
+        <jar destfile="${distjar}/CircleBug.jar" basedir="${circleBug}/src">
+            <manifest>
+                <attribute name="Built-by" value="${user.name}"/>
+                <attribute name="Main-class" value="CircleBugRunner"/>
+            </manifest>
+        </jar>
+        <jar destfile="${distjar}/DancingBug.jar" basedir="${dancingBug}/src">
+            <manifest>
+                <attribute name="Built-by" value="${user.name}"/>
+                <attribute name="Main-class" value="DancingBugRunner"/>
+            </manifest>
+        </jar>
+        <jar destfile="${distjar}/ZBug.jar" basedir="${zBug}/src">
+            <manifest>
+                <attribute name="Built-by" value="${user.name}"/>
+                <attribute name="Main-class" value="ZBugRunner"/>
+            </manifest>
+        </jar>
+        <jar destfile="${distjar}/SpiralBug.jar" basedir="${spiralBug}/src">
+            <manifest>
+                <attribute name="Built-by" value="${user.name}"/>
+                <attribute name="Main-class" value="SpiralBugRunner"/>
+            </manifest>
+        </jar>
+    </target>
+
+    <target name="run-helloworld" depends="dist">
+        <java classname="helloworldTest" fork="yes">
+            <classpath>
+                <fileset dir="${distjar}">
+                    <include name="helloworld.jar"/>
+                </fileset>
+            </classpath>
+            <classpath>
+                <fileset dir="${GridWorld}">
+                    <include name="gridworld.jar"/>
+                </fileset>
+            </classpath>
+        </java>
+    </target>
+    <target name="run-calculator" depends="dist">
+        <java classname="calculator" fork="yes">
+            <classpath>
+                <fileset dir="${distjar}">
+                    <include name="calculator.jar"/>
+                </fileset>
+            </classpath>
+            <classpath>
+                <fileset dir="${GridWorld}">
+                    <include name="gridworld.jar"/>
+                </fileset>
+            </classpath>
+        </java>
+    </target>
+    <target name="run-BoxBug" depends="dist">
+        <java classname="BoxBugRunner" fork="yes">
+            <classpath>
+                <fileset dir="${distjar}">
+                    <include name="BoxBug.jar"/>
+                </fileset>
+            </classpath>
+            <classpath>
+                <fileset dir="${GridWorld}">
+                    <include name="gridworld.jar"/>
+                </fileset>
+            </classpath>
+        </java>
+    </target>
+    <target name="run-CircleBug" depends="dist">
+        <java classname="circleBugRunner" fork="yes">
+            <classpath>
+                <fileset dir="${distjar}">
+                    <include name="CircleBug.jar"/>
+                </fileset>
+            </classpath>
+            <classpath>
+                <fileset dir="${GridWorld}">
+                    <include name="gridworld.jar"/>
+                </fileset>
+            </classpath>
+        </java>
+    </target>
+    <target name="run-SpiralBugRunner" depends="dist">
+        <java classname="SpiralBugRunner" fork="yes">
+            <classpath>
+                <fileset dir="${distjar}">
+                    <include name="SpiralBug.jar"/>
+                </fileset>
+            </classpath>
+            <classpath>
+                <fileset dir="${GridWorld}">
+                    <include name="gridworld.jar"/>
+                </fileset>
+            </classpath>
+        </java>
+    </target>
+    <target name="run-DancingBugRunner" depends="dist">
+        <java classname="DancingBugRunner" fork="yes">
+            <classpath>
+                <fileset dir="${distjar}">
+                    <include name="DancingBug.jar"/>
+                </fileset>
+            </classpath>
+            <classpath>
+                <fileset dir="${GridWorld}">
+                    <include name="gridworld.jar"/>
+                </fileset>
+            </classpath>
+        </java>
+    </target>
+    <target name="run-ZBugRunner" depends="dist">
+        <java classname="ZBugRunner" fork="yes">
+            <classpath>
+                <fileset dir="${distjar}">
+                    <include name="ZBug.jar"/>
+                </fileset>
+            </classpath>
+            <classpath>
+                <fileset dir="${GridWorld}">
+                    <include name="gridworld.jar"/>
+                </fileset>
+            </classpath>
+        </java>
+    </target>
+
+    <target name="clean">
+        <delete dir="${calculator}/src"/>
+        <delete dir="${GridWorld}/src"/>
+        <delete dir="${helloworld}/src"/>
+        <delete dir="${boxBug}/src"/>
+        <delete dir="${circleBug}/src"/>
+        <delete dir="${spiralBug}/src"/>
+        <delete dir="${dancingBug}/src"/>
+        <delete dir="${zBug}/src"/>
+        <delete dir="${distjar}"/>
+    </target>
+
 </project>
