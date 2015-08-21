@@ -1,0 +1,49 @@
+import info.gird.actor.Bug;
+
+/**
+ * Written by william
+ */
+
+public class Jumper extends Bug {
+
+    public void act() {
+        if (canMove())
+            move();
+        else 
+            turn();
+            turn();
+    }
+
+    private Grid<Actor> gr = getGrid();
+
+    public void move() {
+        if (gr == null)
+            return;
+        Location loc = getLocation();
+        int dir = getDirection();
+        Location next = loc.getAdjacentLocation(dir).getAdjacentLocation(dir);
+        if (gr.isValid(next)) {
+            Actor neighbor = gr.get(next);
+            if ((neighbor != null) && !(neighbor instanceof Flower)) {
+                removeSelfFromGrid();
+                if (neighbor instanceof Jumper)
+                    neighbor.removeSelfFromGrid();
+            } else
+                moveTo(next);
+        }
+    }
+    
+    public boolean canMove()
+    {
+        Grid<Actor> gr = getGrid();
+        if (gr == null)
+            return false;
+        Location loc = getLocation();
+        Location next = loc.getAdjacentLocation(getDirection()).getAdjacentLocation(getDirection());
+        if (!gr.isValid(next))
+            return false;
+        return true;
+        // ok to move into empty location or onto flower
+        // not ok to move onto any other actor
+    }
+}

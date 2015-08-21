@@ -179,7 +179,7 @@
             </classpath>
             <classpath>
                 <fileset dir="${GridWorld}">
-                    <include name="gridworld.jar"/>
+                    <include name="result.jar"/>
                 </fileset>
             </classpath>
         </java>

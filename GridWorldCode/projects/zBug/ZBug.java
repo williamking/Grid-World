@@ -2,8 +2,11 @@ import info.gridworld.actor.Bug;
 import info.gridworld.grid.Location;
 
 public class ZBug extends Bug {
+    //The length the bug have moved on the side
     private int steps;
+    //length of the side
     private int maxSteps;
+    //where the zBug has moved to
     private int period;
 
     public ZBug(int length) {
@@ -18,11 +21,13 @@ public class ZBug extends Bug {
             move();
             ++steps;
         } else {
+            //First turn
             if (period == 0 && steps == maxSteps) {
                 turn();
                 turn();
                 turn();
             }
+            //Second turn
             if (period == 1 && steps == maxSteps) {
                 turn();
                 turn();
@@ -30,6 +35,7 @@ public class ZBug extends Bug {
                 turn();
                 turn();
             }
+            //Change to next period and init the steps
             ++period;
             steps = 0;
         }
