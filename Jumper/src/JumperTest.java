@@ -16,17 +16,20 @@ public class JumperTest {
     public Flower f = new Flower();
     public Actor x = new Actor();
 
+    //Init the location and direction.
     @Before
     public void setUp() throws Exception {
         w.add(new Location(1, 1), a);
         a.setDirection(Location.EAST);
     }
     
+    //Remove the Jumper when finishing test.
     @After
     public void tearDown() throws Exception {
         a.removeSelfFromGrid();
     }
         
+    //Test jumping.
     @Test
     public void testJump() {
         a.act();
@@ -54,6 +57,7 @@ public class JumperTest {
         r.removeSelfFromGrid();
     }
         
+    //Test crashing to Obj.
     @Test
     public void testJumpToFlowerOrRock() {
         w.add(new Location(1, 3), f);
@@ -76,6 +80,7 @@ public class JumperTest {
         assertEquals(null, r.getGrid());
     }
     
+    //It will not jump outside.
     @Test
     public void testJumpToOutside() {
         a.setDirection(Location.WEST);
@@ -84,6 +89,7 @@ public class JumperTest {
         assertEquals(Location.NORTH, a.getDirection());
     }
 
+    //It will turn.
     @Test
     public void testFacingEdge() {
         a.moveTo(new Location(0, 0));
@@ -93,6 +99,7 @@ public class JumperTest {
         assertEquals(Location.NORTH, a.getDirection());
     }
 
+    //Jumping to actor.
     @Test
     public void testJumpToActor() {
         w.add(new Location(1, 3), x);
@@ -123,6 +130,7 @@ public class JumperTest {
         b.removeSelfFromGrid();
     }
 
+    //The crashing is none of business of the path.
     @Test
     public void testEncounterAnother() {
         w.add(new Location(1, 2), b);
