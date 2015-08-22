@@ -157,8 +157,8 @@ public class IImageProcessor1 implements IImageProcessor {
             rowByteNum = (rowByteNum / 4 + 1) * 4;
         for (int i = 0; i < height; ++i) {
             for (int j = 0; j < width; ++j) {
-                double grey = imgData[addr + i * rowByteNum + j * 3] * 0.114 + imgData[addr + i * rowByteNum + j * 3 + 1] * 0.587
-                    + imgData[addr + i * rowByteNum + j * 3 + 2] * 0.299;
+                double grey1 = (int)(imgData[addr + i * rowByteNum + j * 3]) * 0.114 + (int)(imgData[addr + i * rowByteNum + j * 3 + 1]) * 0.587 + (int)(imgData[addr + i * rowByteNum + j * 3 + 2]) * 0.299;
+                long grey = Math.round(grey1);
                 imgData[addr + i * rowByteNum + j * 3 + 2] = (byte)grey;
                 imgData[addr + i * rowByteNum + j * 3 + 1] = (byte)grey;
                 imgData[addr + i * rowByteNum + j * 3] = (byte)grey;

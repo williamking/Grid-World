@@ -55,6 +55,10 @@ public class ParasticCritter extends Critter
         return fullPoint;
     }
 
+    public void setFullPoint(int fp) {
+        fullPoint = fp;
+    }
+
     public void act() {
         --fullPoint;
         if (fullPoint < 0) {
