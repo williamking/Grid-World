@@ -1,0 +1,177 @@
+/*************************************************************************
+    > File Name: IImageProcessor.java
+    > Author: william
+    > Mail: williamjwking@gmail.com
+*/
+
+import java.awt.Image;
+import java.awt.Toolkit;
+import java.awt.image.*;
+import javax.imageio.*;
+import java.io.*;
+import imagereader.*;
+
+
+public class IImageProcessor1 implements IImageProcessor {
+    
+    private static int WIDTH_ADD = 18;
+    private static int HEIGHT_ADD = 22;
+    private static int DATA_ADD = 10;
+    private static int SIZE_ADD = 2;
+   
+    
+    public byte[] getImageData(Image srcImage) {
+        BufferedImage src = (BufferedImage)srcImage;
+        ByteArrayOutputStream bos = new ByteArrayOutputStream();
+        byte[] imgData = null;
+        try {
+            ImageIO.write(src, "bmp", bos);
+            imgData = bos.toByteArray();
+            System.out.println(Integer.toHexString(imgData[2199602] & 0xFF));
+        } catch (Exception e){
+            System.out.println("Err src!");
+        }
+        return imgData;
+    }
+
+    public int getWidth(byte[] data) {
+        int value = (data[WIDTH_ADD] & 0xff) | ((data[WIDTH_ADD + 1] << 8) & 0xff00)
+        | ((data[WIDTH_ADD + 2] << 24) >>> 8) | (data[WIDTH_ADD + 3] << 24);
+        return value;
+    }
+
+    public int getHeight(byte[] data) {
+        int value = (data[HEIGHT_ADD] & 0xff) | ((data[HEIGHT_ADD + 1] << 8) & 0xff00)
+        | ((data[HEIGHT_ADD + 2] << 24) >>> 8) | (data[HEIGHT_ADD + 3] << 24);
+        return value;
+    }
+
+    public int getDataAddress(byte[] data) {
+        int value = (data[DATA_ADD] & 0xff) | ((data[DATA_ADD + 1] << 8) & 0xff00)
+        | ((data[DATA_ADD + 2] << 24) >>> 8) | (data[DATA_ADD + 3] << 24);
+        return value;
+    }
+
+    public int getSize(byte[] data) {
+        int value = (data[SIZE_ADD] & 0xff) | ((data[SIZE_ADD + 1] << 8) & 0xff00)
+        | ((data[SIZE_ADD + 2] << 24) >>> 8) | (data[SIZE_ADD + 3] << 24);
+        return value;
+    }
+
+    public void makeFile(byte[] imgData, String path) {
+        try {
+            ByteArrayInputStream in = new ByteArrayInputStream(imgData);
+            BufferedImage img = ImageIO.read(in);
+            ImageIO.write(img, "bmp", new File(path));
+        } catch (Exception e) {
+            System.out.println("hewh");
+        }
+    }
+
+    public Image showChanelR(Image srcImage) {
+        byte[] imgData = getImageData(srcImage);
+        int width = getWidth(imgData);
+        int height = getHeight(imgData);
+        int addr = getDataAddress(imgData);
+        int length = getSize(imgData);
+        int rowByteNum = width * 3;
+        if (rowByteNum % 4 != 0)
+            rowByteNum = (rowByteNum / 4 + 1) * 4;
+        for (int i = 0; i < height; ++i) {
+            for (int j = 0; j < width; ++j) {
+                imgData[addr + i * rowByteNum + j * 3] = 0;
+                imgData[addr + i * rowByteNum + j * 3 + 1] = 0;
+            }
+        }
+        makeFile(imgData, "/home/william/Documents/poi_red.bmp");
+        BufferedImage RImg = null;
+        try {
+            ByteArrayInputStream in = new ByteArrayInputStream(imgData);
+            RImg = ImageIO.read(in); 
+        } catch (Exception e) {
+            System.out.println("Failed");
+        }      
+        return RImg;
+    }
+
+    public Image showChanelG(Image srcImage) {
+        byte[] imgData = getImageData(srcImage);
+        int width = getWidth(imgData);
+        int height = getHeight(imgData);
+        int addr = getDataAddress(imgData);
+        int length = getSize(imgData);
+        int rowByteNum = width * 3;
+        if (rowByteNum % 4 != 0)
+            rowByteNum = (rowByteNum / 4 + 1) * 4;
+        for (int i = 0; i < height; ++i) {
+            for (int j = 0; j < width; ++j) {
+                imgData[addr + i * rowByteNum + j * 3] = 0;
+                imgData[addr + i * rowByteNum + j * 3 + 2] = 0;
+            }
+        }
+        makeFile(imgData, "/home/william/Documents/poi_green.bmp");
+        BufferedImage RImg = null;
+        try {
+            ByteArrayInputStream in = new ByteArrayInputStream(imgData);
+            RImg = ImageIO.read(in); 
+        } catch (Exception e) {
+            System.out.println("Failed");
+        }      
+        return RImg;
+    }
+
+    public Image showChanelB(Image srcImage) {
+        byte[] imgData = getImageData(srcImage);
+        int width = getWidth(imgData);
+        int height = getHeight(imgData);
+        int addr = getDataAddress(imgData);
+        int length = getSize(imgData);
+        int rowByteNum = width * 3;
+        if (rowByteNum % 4 != 0)
+            rowByteNum = (rowByteNum / 4 + 1) * 4;
+        for (int i = 0; i < height; ++i) {
+            for (int j = 0; j < width; ++j) {
+                imgData[addr + i * rowByteNum + j * 3 + 2] = 0;
+                imgData[addr + i * rowByteNum + j * 3 + 1] = 0;
+            }
+        }
+        makeFile(imgData, "/home/william/Documents/poi_blue.bmp");
+        BufferedImage RImg = null;
+        try {
+            ByteArrayInputStream in = new ByteArrayInputStream(imgData);
+            RImg = ImageIO.read(in); 
+        } catch (Exception e) {
+            System.out.println("Failed");
+        }      
+        return RImg; 
+    }
+
+    public Image showGray(Image srcImage) {
+        byte[] imgData = getImageData(srcImage);
+        int width = getWidth(imgData);
+        int height = getHeight(imgData);
+        int addr = getDataAddress(imgData);
+        int length = getSize(imgData);
+        int rowByteNum = width * 3;
+        if (rowByteNum % 4 != 0)
+            rowByteNum = (rowByteNum / 4 + 1) * 4;
+        for (int i = 0; i < height; ++i) {
+            for (int j = 0; j < width; ++j) {
+                double grey = imgData[addr + i * rowByteNum + j * 3] * 0.114 + imgData[addr + i * rowByteNum + j * 3 + 1] * 0.587
+                    + imgData[addr + i * rowByteNum + j * 3 + 2] * 0.299;
+                imgData[addr + i * rowByteNum + j * 3 + 2] = (byte)grey;
+                imgData[addr + i * rowByteNum + j * 3 + 1] = (byte)grey;
+                imgData[addr + i * rowByteNum + j * 3] = (byte)grey;
+            }
+        }
+        makeFile(imgData, "/home/william/Documents/poi_grey.bmp");
+        BufferedImage RImg = null;
+        try {
+            ByteArrayInputStream in = new ByteArrayInputStream(imgData);
+            RImg = ImageIO.read(in); 
+        } catch (Exception e) {
+            System.out.println("Failed");
+        } 
+        return RImg;
+    }
+}

@@ -43,8 +43,9 @@ public class RockHound extends Critter
         }
         for (Actor a : actors)
         {
-            if (!(a instanceof Critter))
+            if (!(a instanceof Critter)) {
                 a.removeSelfFromGrid();
+            }        
         }
     }
 

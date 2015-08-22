@@ -45,23 +45,27 @@ public class QuickCrab extends CrabCritter
         for (int d : directions)
         {
             Location neighborLoc = loc.getAdjacentLocation(getDirection() + d);
-            if (gr.isValid(neighborLoc) && gr.get(neighborLoc) != null)
+            if (gr.isValid(neighborLoc) && gr.get(neighborLoc) != null) {
                 continue;
+            }
             neighborLoc = neighborLoc.getAdjacentLocation(getDirection() + d);
-            if (gr.isValid(neighborLoc))
+            if (gr.isValid(neighborLoc)) {
                 locs.add(neighborLoc);
+            }        
         }
         return locs;
-    }    
+    }   
     
     public ArrayList<Location> getMoveLocations()
     {
         ArrayList<Location> locs = new ArrayList<Location>();
         int[] dirs =
             { Location.LEFT, Location.RIGHT };
-        for (Location loc : getSpecialLocationsInDirections(dirs))
-            if (getGrid().get(loc) == null)
+        for (Location loc : getSpecialLocationsInDirections(dirs)) {
+            if (getGrid().get(loc) == null) {
                 locs.add(loc);
+            }
+        }
 
         return locs;
     }

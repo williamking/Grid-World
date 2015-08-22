@@ -48,11 +48,13 @@ public class KingCrab extends CrabCritter
             Location loc = getLocation();    
             Location otherLoc = other.getLocation();
             Location newLoc = otherLoc.getAdjacentLocation(loc.getDirectionToward(otherLoc));
-            if (gr.isValid(newLoc) && gr.get(newLoc) == null)
-                other.moveTo(newLoc);
-            else
+            if (gr.isValid(newLoc) && gr.get(newLoc) == null) {
+               other.moveTo(newLoc);
+            }
+            else {
                 other.removeSelfFromGrid();
-        }
+            }           
+        }   
     }
   
 }
