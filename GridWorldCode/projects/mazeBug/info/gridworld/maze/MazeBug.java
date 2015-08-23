@@ -1,5 +1,3 @@
-package info.gridworld.maze;
-
 import info.gridworld.actor.Actor;
 import info.gridworld.actor.Bug;
 import info.gridworld.actor.Flower;
@@ -20,7 +18,7 @@ public class MazeBug extends Bug {
 	public Location next;
 	public Location last;
 	public boolean isEnd = false;
-	public Stack<ArrayList<Location>> crossLocation = new Stack<ArrayList<Location>>();
+	public Stack<Location> crossLocation = new Stack<Location>();
 	public Integer stepCount = 0;
 	boolean hasShown = false;//final message has been shown
 
@@ -51,7 +49,20 @@ public class MazeBug extends Bug {
 			move();
 			//increase step count when move 
 			stepCount++;
-		} 
+        } else {
+            if (crossLocation.empty()) {
+                String msg = "No path to last!";
+                JOptionPane.showMessageDialog(null, msg);
+                hasShown = true;
+                return;
+            }
+            Location backLoc = crossLocation.pop();
+            if (getGrid().get(backLoc) instanceof Flower) {
+                getGrid().get(backLoc).removeSelfFromGrid();
+                move();
+                stepCount++;
+            }
+        } 
 	}
 
 	/**
@@ -69,7 +80,7 @@ public class MazeBug extends Bug {
         int[] directions = {Location.EAST, Location.WEST, Location.NORTH, Location.SOUTH};
         for (int dir: directions) {
             Location newLoc = loc.getAdjacentLocation(dir);
-            if (gr.isValid(newLoc) && (gr.get(newLoc) == null || gr.get(newLoc) instanceof Flower)) {
+            if (gr.isValid(newLoc) && (gr.get(newLoc) == null)) {
                 valid.add(loc.getAdjacentLocation(dir));
             }
         }
@@ -94,9 +105,17 @@ public class MazeBug extends Bug {
 		if (gr == null)
 			return;
 		Location loc = getLocation();
+        ArrayList<Location> locs = getValid(loc);
+        Random r = new Random();
+        int n = r.nextInt(locs.size());
+        next = locs.get(n);
 		if (gr.isValid(next)) {
-			setDirection(getLocation().getDirectionToward(next));
+			setDirection(loc.getDirectionToward(next));
+            crossLocation.push(loc);
 			moveTo(next);
+            if (next.equals(last)) {
+                isEnd = true;
+            }
 		} else
 			removeSelfFromGrid();
 		Flower flower = new Flower(getColor());
