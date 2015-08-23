@@ -1,0 +1,72 @@
+Set 10
+
+The source code for the AbstractGrid class is in Appendix D.
+
+1. Where is the isValid method specified? Which classes provide an implementation of this method?
+    Ans: The isValid method is spcified in the Grid interface, the implementation is provided in its extended class Bounded class.
+
+2. Which AbstractGrid methods call the isValid method? Why don't the other methods need to call it?
+    Ans: getValidAdjacentLocations, getEmptyAdjacentLoations and getOcupiedAdjacentLocations. Beacuse other methods don't need to get location or call isValid method
+         undirecty by calling other methods that call isValid method.
+
+3. Which methods of the Grid interface are called in the getNeighbors method? Which classes provide implementations of these methods?
+    Ans: getOccupiedAdjacentLocations are called in the get Neighbors method, AbstractGrid provides the implementations of thses methods.
+
+4. Why must the get method, which returns an object of type E, be used in the getEmptyAdjacentLocations method when this method returns locations, not objects of type E?
+    Ans: Beacuse whether the AdjacentLoction has object must be confirmed to know, so that the empty locations can be found.
+
+5. What would be the effect of replacing the constant Location.HALF_RIGHT with Location.RIGHT in the two places where it occurs in the getValidAdjacentLocations method?
+   Ans: Only at most 4 locations would be returned, instead of 8 . Because Location.FULL_CIRCLE / Location.HALF_RIGHT = 360 / 90 = 4.
+
+
+Set 11
+
+The source code for the BoundedGrid class is in Appendix D.
+
+1. What ensures that a grid has at least one valid location?
+    Ans: The constructed method ensures the rows and cols are above 0.So that at least 1 valid location exists.
+
+2. How is the number of columns in the grid determined by the getNumCols method? What assumption about the grid makes this possible?
+    Ans: The number of columns is determined by the length of the private variable occupantArray. The assumptions that the grid is bounded and the location is continuous makes this possible. 
+
+3. What are the requirements for a Location to be valid in a BoundedGrid?
+   Ans: the number of Row and number of Column must be in the range [0, num of rows) and [0, num of columns).
+
+
+In the next four questions, let r = number of rows, c = number of columns, and n = number of occupied locations.
+
+4. What type is returned by the getOccupiedLocations method? What is the time complexity (Big-Oh) for this method?
+   Ans: ArrayList<Location>. The time complexity is O(rc).
+
+5. What type is returned by the get method? What parameter is needed? What is the time complexity (Big-Oh) for this method?
+   Ans: The type parameter E, which determines what type of objects are put into the grid. Time complexity: O(1).
+
+6. What conditions may cause an exception to be thrown by the put method? What is the time complexity (Big-Oh) for this method?
+   Ans: The location isn't valid or no object is put on the location. Time complexity: O(1).
+
+7. What type is returned by the remove method? What happens when an attempt is made to remove an item from an empty location? What is the time complexity (Big-Oh) for this method?
+   Ans: The type parameter E. The method will return a null result when attempting to remove an item from and empty location.
+        Complexity: O(1).
+
+8. Based on the answers to questions 4, 5, 6, and 7, would you consider this an efficient implementation? Justify your answer.
+    Ans: No, for searching occupied locations, time complexity O(rc) is not efficient, if store the occupied location in an array, the time complexity can be O(n).
+
+
+Set 12
+
+The source code for the UnboundedGrid class is in Appendix D.
+
+1. Which method must the Location class implement so that an instance of HashMap can be used for the map? What would be required of the Location class if a TreeMap were used instead? Does Location satisfy these requirements?
+   Ans:  For HashMap, the method of calculating hashCode must be implemented. For TreeMap, the method of comparing to other location must be implemented. The Location satisfies these requirements.
+
+2. Why are the checks for null included in the get, put, and remove methods? Why are no such checks included in the corresponding methods for the BoundedGrid?
+    Ans: Because null can not be used in HasMap. Because this check is accomplish by method isValid.
+
+3. What is the average time complexity (Big-Oh) for the three methods: get, put, and remove? What would it be if a TreeMap were used instead of a HashMap?
+   Ans: For HashMap, time comlexity for get, put and remove is O(1), for  TreeMap is O(logn).
+
+4. How would the behavior of this class differ, aside from time complexity, if a TreeMap were used instead of a HashMap?
+   Ans: TreeMap stores the key in order, and Hash stores the key according to hashcode, their orders are different.
+
+5. Could a map implementation be used for a bounded grid? What advantage, if any, would the two-dimensional array implementation that is used by the BoundedGrid class have over a map implementation?
+   Ans: Yes, the advantage is using less space to store the information of occupation. No, using the two-dimensional array implemention will make the search of information of occupation faster than map implemention.

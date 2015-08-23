@@ -27,7 +27,7 @@ public class IImageProcessor1 implements IImageProcessor {
         try {
             ImageIO.write(src, "bmp", bos);
             imgData = bos.toByteArray();
-            System.out.println(Integer.toHexString(imgData[2199602] & 0xFF));
+            //System.out.println(Integer.toHexString(imgData[2199602] & 0xFF));
         } catch (Exception e){
             System.out.println("Err src!");
         }
@@ -79,8 +79,8 @@ public class IImageProcessor1 implements IImageProcessor {
             rowByteNum = (rowByteNum / 4 + 1) * 4;
         for (int i = 0; i < height; ++i) {
             for (int j = 0; j < width; ++j) {
-                imgData[addr + i * rowByteNum + j * 3] = 0;
-                imgData[addr + i * rowByteNum + j * 3 + 1] = 0;
+                imgData[addr + i * rowByteNum + j * 3] = 0x00;
+                imgData[addr + i * rowByteNum + j * 3 + 1] = 0x00;
             }
         }
         makeFile(imgData, "/home/william/Documents/poi_red.bmp");
@@ -157,11 +157,11 @@ public class IImageProcessor1 implements IImageProcessor {
             rowByteNum = (rowByteNum / 4 + 1) * 4;
         for (int i = 0; i < height; ++i) {
             for (int j = 0; j < width; ++j) {
-                double grey1 = (int)(imgData[addr + i * rowByteNum + j * 3]) * 0.114 + (int)(imgData[addr + i * rowByteNum + j * 3 + 1]) * 0.587 + (int)(imgData[addr + i * rowByteNum + j * 3 + 2]) * 0.299;
-                long grey = Math.round(grey1);
-                imgData[addr + i * rowByteNum + j * 3 + 2] = (byte)grey;
-                imgData[addr + i * rowByteNum + j * 3 + 1] = (byte)grey;
-                imgData[addr + i * rowByteNum + j * 3] = (byte)grey;
+                double grey1 = ((int)(imgData[addr + i * rowByteNum + j * 3]) & 0x000000ff) * 0.114 + ((int)(imgData[addr + i * rowByteNum + j * 3 + 1]) & 0x000000ff) * 0.587 + ((int)(imgData[addr + i * rowByteNum + j * 3 + 2]) & 0x000000ff) * 0.299;
+                double grey = Math.ceil(grey1) - 1;
+                imgData[addr + i * rowByteNum + j * 3 + 2] = (byte)(int)grey;
+                imgData[addr + i * rowByteNum + j * 3 + 1] = (byte)(int)grey;
+                imgData[addr + i * rowByteNum + j * 3] = (byte)(int)grey;
             }
         }
         makeFile(imgData, "/home/william/Documents/poi_grey.bmp");

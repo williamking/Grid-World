@@ -1,0 +1,70 @@
+<?xml version="1.0"?>
+<project default="run" name="Jumper project" basedir=".">
+    <description>
+        The Test of the Jumper
+    </description>
+
+    <property name="src" location="${basedir}/Runners"/>
+    <property name="src2" location="${basedir}/jigsaw"/>
+    <property name="dist" location="${basedir}/dist"/>
+    <property name="jar" location="${basedir}/jar"/>
+
+    <path id="gridworld.jar">
+        <pathelement location="${basedir}/runner.jar"/>
+    </path>
+
+    <path id="junit.jar">
+        <pathelement location="${basedir}/iunit-4.9.jar"/>
+    </path>
+
+    <target name="init" description="Create dir">
+        <mkdir dir="${dist}"/>
+        <mkdir dir="${jar}"/>
+    </target>
+
+    <target name="compile" depends="init">
+        <javac srcdir="${src}" destdir="${dist}">
+            <classpath refid="junit.jar"/>
+        </javac>
+        <javac srcdir="${src2}" destdir="${dist}">
+            <classpath refid="junit.jar"/>
+        </javac>
+    </target>
+    
+    <target name="jar" depends="compile">
+        <jar destfile="${jar}/result.jar" basedir="${dist}">
+            <manifest>
+                <attribute name="Built-by" value="${user.name}"/>
+                <attribute name="Main-class" value="Runner"/>
+            </manifest>
+        </jar>
+    </target>
+
+    <target name="run" depends="jar">
+        <java classname="Runners.RunnerPart2" fork="yes">
+            <classpath>
+                <fileset dir="${jar}">
+                    <include name="result.jar"/>
+                </fileset>
+            </classpath>
+        </java>
+    </target>
+
+    <target name="test" depends="compile">
+        <junit printsummary="true">
+            <classpath refid="junit.jar"/>
+            <classpath>
+                <fileset dir="${jar}">
+                    <include name="result.jar"/>
+                </fileset>
+            </classpath>
+            <test name="RunnerDemo"/>
+        </junit>    
+    </target>
+
+    <target name="clean">
+        <delete dir="${dist}"/>
+        <delete dir="${jar}"/>
+    </target>
+
+</project>
