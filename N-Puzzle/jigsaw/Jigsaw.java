@@ -37,66 +37,51 @@ public class Jigsaw {
 
 	/**此函数用于打散拼图：将输入的初始状态节点jNode随机移动len步，返回其打散后的状态节点
 	 * @param jNode - 初始状态节点
-	 * @param len - 随机移动的步数
-	 * @return 打散后的状态节点
-	 */
-	public static JigsawNode scatter(JigsawNode jNode, int len) {
-		int randomDirection;
-		len += (int) (Math.random() * 2);
-		JigsawNode jigsawNode = new JigsawNode(jNode);
-		for (int t = 0; t < len; t++) {
-			int[] movable = jigsawNode.canMove();
-			do{randomDirection = (int) (Math.random() * 4);}
-			while(0 == movable[randomDirection]);
-			jigsawNode.move(randomDirection);
-		}
-		jigsawNode.setInitial();
-		return jigsawNode;
-	}
-
-	/**获取拼图的当前状态节点
-	 * @return currentJNode -  拼图的当前状态节点
-	 */
-	public JigsawNode getCurrentJNode() {
-		return currentJNode;
-	}
-
-	/**设置拼图的初始状态节点
-	 * @param jNode - 拼图的初始状态节点
-	 */
-	public void setBeginJNode(JigsawNode jNode) {
-		beginJNode = jNode;
-	}
-
-	/**获取拼图的初始状态节点
-	 * @return beginJNode - 拼图的初始状态节点
-	 */
-	public JigsawNode getBeginJNode() {
-		return beginJNode;
-	}
-
-	/**设置拼图的目标状态节点
-	 * @param jNode - 拼图的目标状态节点
-	 */
-	public void setEndJNode(JigsawNode jNode) {
-		this.endJNode = jNode;
-	}
-
-	/**获取拼图的目标状态节点
-	 * @return endJNode - 拼图的目标状态节点
-	 */
-	public JigsawNode getEndJNode() {
-		return endJNode;
-	}
-
-	/**获取拼图的求解状态
-	 * @return isCompleted - 拼图已解为true；拼图未解为false
-	 */
-	public boolean isCompleted() {
-		return isCompleted;
-	}
-
-	/**计算解的路劲
+	 * @param len - 随机移动的步数 * @return 打散后的状态节点 */
+    public static JigsawNode scatter(JigsawNode jNode, int len) { 
+        int randomDirection; len += (int) (Math.random() * 2); 
+        JigsawNode jigsawNode = new JigsawNode(jNode); 
+        for (int t = 0; t < len; t++) { 
+            int[] movable = jigsawNode.canMove(); 
+            do{
+                randomDirection = (int) (Math.random() * 4);
+            } while(0 == movable[randomDirection]); 
+            jigsawNode.move(randomDirection); 
+        } 
+        jigsawNode.setInitial(); 
+        return jigsawNode; 
+    }
+    /**获取拼图的当前状态节点 
+     * * @return currentJNode -  拼图的当前状态节点 */ 
+    public JigsawNode getCurrentJNode() { 
+        return currentJNode; 
+    } 
+    /**设置拼图的初始状态节点 
+     * * @param jNode - 拼图的初始状态节点 */ 
+    public void setBeginJNode(JigsawNode jNode) { 
+        beginJNode = jNode; 
+    } 
+    /**获取拼图的初始状态节点 
+     * * @return beginJNode - 拼图的初始状态节点 */ 
+    public JigsawNode getBeginJNode() { 
+        return beginJNode; 
+    } 
+    /**设置拼图的目标状态节点 
+     * * @param jNode - 拼图的目标状态节点 */ 
+    public void setEndJNode(JigsawNode jNode) { 
+        this.endJNode = jNode; 
+    } 
+    /**获取拼图的目标状态节点 
+     * * @return endJNode - 拼图的目标状态节点 */ 
+    public JigsawNode getEndJNode() { 
+        return endJNode; 
+    } 
+    /**获取拼图的求解状态 
+     * * @return isCompleted - 拼图已解为true；拼图未解为false */ 
+    public boolean isCompleted() { 
+        return isCompleted; 
+    } 
+    /**计算解的路劲
 	 * @return 若有解，则将结果保存在solutionPath中，返回true; 若无解，则返回false
 	 */
 	private boolean calSolutionPath() {
@@ -356,6 +341,7 @@ public class Jigsaw {
 		}
 
         int h = 0; //曼哈顿距离和
+        int r = 0;
         int[] cLoc = new int[dimension * dimension + 1];
         int emptyLoc = jNode.getNodesState()[0];
         for (int i = 1; i < dimension * dimension + 1; ++i) {
@@ -366,8 +352,10 @@ public class Jigsaw {
         for (int i = 1; i < dimension * dimension; ++i) {
             int loc = cLoc[i];
             h += Math.abs((i - 1) / dimension - (loc - 1) / dimension) + Math.abs((i - 1) % dimension - (loc - 1) % dimension);
+            r += Math.pow(Math.abs((i - 1) / dimension - (loc - 1) / dimension), 2) + Math.pow(Math.abs((i - 1) % dimension - (loc - 1) % dimension), 2);
         }
-		jNode.setEstimatedValue(s * 2 + jNode.getNodeDepth() * 1 + h * 5);
+		//jNode.setEstimatedValue(s * 6 + jNode.getNodeDepth() * 2 + h * 8 + r * 3);
+		jNode.setEstimatedValue(s * 2 + h * 5 + r * 2);
 	}
 
 }

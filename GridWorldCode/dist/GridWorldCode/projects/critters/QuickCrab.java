@@ -66,7 +66,10 @@ public class QuickCrab extends CrabCritter
                 locs.add(loc);
             }
         }
-
-        return locs;
+        if (locs.size() != 0) {
+            return locs;
+        } else {
+            return super.getMoveLocations();
+        }  
     }
 }

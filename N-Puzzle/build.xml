@@ -41,6 +41,16 @@
     </target>
 
     <target name="run" depends="jar">
+        <java classname="Runners.RunnerPart1" fork="yes">
+            <classpath>
+                <fileset dir="${jar}">
+                    <include name="result.jar"/>
+                </fileset>
+            </classpath>
+        </java>
+    </target>
+
+    <target name="run2" depends="jar">
         <java classname="Runners.RunnerPart2" fork="yes">
             <classpath>
                 <fileset dir="${jar}">

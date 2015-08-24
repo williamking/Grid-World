@@ -26,7 +26,9 @@ public class RunnerPart2 {
 
 		// 生成随机初始状态对象startNode：将目标状态打散，生成可解的随机初始状态
 		JigsawNode startNode = Jigsaw.scatter(destNode, 1000);
-		//JigsawNode startNode = new JigsawNode(new int[]{19,8,7,9,23,10,3,19,5,4,14,2,20,11,6,15,22,13,16,0,1,21,12,18,24,17});
+		//JigsawNode startNode = new JigsawNode(new int[]{5,20,10,24,17,0,2,15,16,19,9,18,3,13,4,23,5,12,1,8,22,6,7,11,21,14});
+		//JigsawNode startNode = new JigsawNode(new int[] {20,9,1,20,10,12,8,4,6,7,2,3,5,14,15,18,13,23,17,19,0,22,16,11,24,21});
+		//JigsawNode startNode = new JigsawNode(new int[] {19,17,15,18,6,13,3,7,5,8,9,22,1,16,14,24,21,4,23,0,10,11,2,19,12,20});
 
 		// 生成jigsaw对象：设置初始状态节点startNode和目标状态节点destNode
 		Jigsaw jigsaw = new Jigsaw(startNode, destNode);

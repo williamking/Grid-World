@@ -16,11 +16,11 @@ import javax.swing.JOptionPane;
  */
 public class MazeBug extends Bug {
 	public Location next;
-	public Location last;
 	public boolean isEnd = false;
 	public Stack<Location> crossLocation = new Stack<Location>();
 	public Integer stepCount = 0;
 	boolean hasShown = false;//final message has been shown
+    private int[] times = new int[4];
 
 	/**
 	 * Constructs a box bug that traces a square of a given side length
@@ -30,7 +30,6 @@ public class MazeBug extends Bug {
 	 */
 	public MazeBug() {
 		setColor(Color.GREEN);
-		last = new Location(1, 1);
 	}
 
 	/**
@@ -54,20 +53,17 @@ public class MazeBug extends Bug {
                 String msg = "No path to last!";
                 JOptionPane.showMessageDialog(null, msg);
                 hasShown = true;
+                removeSelfFromGrid();
                 return;
             }
             Location backLoc = crossLocation.pop();
             if (getGrid().get(backLoc) instanceof Flower) {
                 getGrid().get(backLoc).removeSelfFromGrid();
-                moveBack();
+                moveBack(backLoc);
                 stepCount++;
             }
         } 
 	}
-
-    public void setLast(int row, int col) {
-        last = new Location(row, col);            
-    }
 
 	/**
 	 * Find all positions that can be move to.
@@ -84,7 +80,7 @@ public class MazeBug extends Bug {
         int[] directions = {Location.EAST, Location.WEST, Location.NORTH, Location.SOUTH};
         for (int dir: directions) {
             Location newLoc = loc.getAdjacentLocation(dir);
-            if (gr.isValid(newLoc) && (gr.get(newLoc) == null || newLoc.equals(last))) {
+            if (gr.isValid(newLoc) && (gr.get(newLoc) == null || (gr.get(newLoc) instanceof Rock && gr.get(newLoc).getColor().getRed() == 255))) {
                 valid.add(loc.getAdjacentLocation(dir));
             }
         }
@@ -116,31 +112,55 @@ public class MazeBug extends Bug {
 		if (gr.isValid(next)) {
 			setDirection(loc.getDirectionToward(next));
             crossLocation.push(loc);
-			moveTo(next);
-            if (next.equals(last)) {
+            if (gr.get(next) instanceof Rock && gr.get(next).getColor().getRed() == 255) {
                 isEnd = true;
             }
+            int dir = loc.getDirectionToward(next);
+            ++times[dir / 90];
+			moveTo(next);
 		} else
 			removeSelfFromGrid();
 		Flower flower = new Flower(getColor());
 		flower.putSelfInGrid(gr, loc);
 	}
+
+    public Location chooseLoc(ArrayList<Location> locs) {
+        int count = 0;
+        Location loc = getLocation();
+        for (int i = 0; i < locs.size(); ++i) {
+            Location next = locs.get(i);
+            int dir = loc.getDirectionToward(next);
+            count += times[dir / 90];
+        }
+        Location result = null;
+        Random r = new Random();
+        int n = r.nextInt(count);
+        int pre = 0;
+        int now = 0;
+        for (int i = 0; i < locs.size(); ++i) {
+            Location next = locs.get(i);
+            int dir = loc.getDirectionToward(next);
+            now = pre + dir;
+            if (n > pre && n <= now) {
+                result = next;
+                break;
+            }
+            pre = now;
+        }
+        return result;
+    }
     
-	public void moveBack() {
+	public void moveBack(Location backLoc) {
 		Grid<Actor> gr = getGrid();
 		if (gr == null)
 			return;
-		Location loc = getLocation();
-        ArrayList<Location> locs = getValid(loc);
-        Random r = new Random();
-        int n = r.nextInt(locs.size());
-        next = locs.get(n);
+        Location loc = getLocation();
+        next = backLoc;
 		if (gr.isValid(next)) {
 			setDirection(loc.getDirectionToward(next));
 			moveTo(next);
-            if (next.equals(last)) {
-                isEnd = true;
-            }
+            int dir = (getDirection() + Location.HALF_CIRCLE) % 360;
+            --times[dir / 90];
 		} else
 			removeSelfFromGrid();
 		Flower flower = new Flower(getColor());

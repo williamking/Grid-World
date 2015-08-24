@@ -69,6 +69,15 @@ public class BlusterCritter extends Critter
             int red = (int) (c.getRed() * (1 + DARKENING_FACTOR));
             int green = (int) (c.getGreen() * (1 + DARKENING_FACTOR));
             int blue = (int) (c.getBlue() * (1 + DARKENING_FACTOR));
+            if (red > 255) {
+                red = 255;
+            }
+            if (blue > 255) {
+                blue = 255;
+            }
+            if (green > 255) {
+                green = 255;
+            }
             setColor(new Color(red, green, blue)); 
     }
 }
