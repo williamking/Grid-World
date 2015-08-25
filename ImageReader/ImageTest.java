@@ -49,6 +49,7 @@ public class ImageTest {
         System.out.println("Test over.");
     }
 
+    //Compare the image files
     @Test
     public void testFiles() {
         //Test red image

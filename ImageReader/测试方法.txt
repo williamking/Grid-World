@@ -1,0 +1,3 @@
+终端输入ant 或 ant run 运行程序
+
+输入ant test进行测试

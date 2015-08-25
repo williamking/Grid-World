@@ -1,0 +1,72 @@
+<?xml version="1.0"?>
+<project default="run" name="ImageProcessor" basedir=".">
+    <description>
+        The Test of the ImageReader
+    </description>
+
+    <property name="src" location="${basedir}"/>
+    <property name="dist" location="${basedir}"/>
+    <property name="jar" location="${basedir}/jar"/>
+
+    <path id="imagereader.jar">
+        <pathelement location="${basedir}/ImageReader.jar"/>
+    </path>
+
+    <path id="junit.jar">
+        <pathelement location="${basedir}/junit-4.9.jar"/>
+    </path>
+
+    <target name="init" description="Create dir">
+        <mkdir dir="${jar}"/>
+    </target>
+
+    <target name="compile" depends="init">
+        <javac srcdir="${src}" destdir="${dist}">
+            <classpath refid="junit.jar"/>
+            <classpath refid="imagereader.jar"/>
+        </javac>
+    </target>
+    
+    <target name="jar" depends="compile">
+        <jar destfile="${jar}/result.jar" basedir="${dist}">
+            <manifest>
+                <attribute name="Built-by" value="${user.name}"/>
+                <attribute name="Main-class" value="Runner"/>
+            </manifest>
+        </jar>
+    </target>
+
+    <target name="run" depends="jar">
+        <java classname="Test" fork="yes">
+            <classpath refid="junit.jar"/>
+            <classpath refid="imagereader.jar"/>
+            <classpath>
+                <fileset dir="${jar}">
+                    <include name="result.jar"/>
+                </fileset>
+            </classpath>
+        </java>
+        <delete dir="${jar}"/>
+    </target>
+
+    <target name="clean">
+        <delete dir="${jar}"/>
+    </target>
+
+    <target name="test" depends="jar">
+        <junit printsummary="on" failureProperty="fail">
+            <classpath refid="imagereader.jar"/>
+            <classpath refid="junit.jar"/>
+            <classpath>
+                <fileset dir="${jar}">
+                    <include name="result.jar"/>
+                </fileset>
+            </classpath>
+            <test name="ImageTest"/>
+            <formatter type="xml"/>
+            <batchtest todir="${basedir}"/>
+        </junit>    
+        <delete dir="${jar}"/>
+    </target>
+
+</project>

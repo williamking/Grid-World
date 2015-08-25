@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
-<project default="run" name="Jumper project" basedir=".">
+<project default="run" name="ImageProcessor" basedir=".">
     <description>
-        The Test of the ImageReader
+        The Test of the ImageProcessor
     </description>
 
     <property name="src" location="${basedir}"/>

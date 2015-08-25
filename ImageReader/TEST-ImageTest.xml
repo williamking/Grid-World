@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<testsuite errors="0" failures="0" hostname="william-B85M-D3V" name="ImageTest" tests="1" time="0.207" timestamp="2015-08-24T07:05:36">
+<testsuite errors="0" failures="0" hostname="william-B85M-D3V" name="ImageTest" tests="1" time="0.157" timestamp="2015-08-24T12:27:26">
   <properties>
     <property name="java.runtime.name" value="Java(TM) SE Runtime Environment" />
     <property name="sun.boot.library.path" value="/opt/jdk1.6.0_45/jre/lib/amd64" />
@@ -30,13 +30,12 @@
     <property name="java.vm.specification.vendor" value="Sun Microsystems Inc." />
     <property name="os.name" value="Linux" />
     <property name="ant.home" value="/usr/local/ant" />
-    <property name="ant.project.name" value="Jumper project" />
+    <property name="ant.project.name" value="ImageProcessor" />
     <property name="sun.jnu.encoding" value="UTF-8" />
     <property name="java.library.path" value="/opt/jdk1.6.0_45/jre/lib/amd64/server:/opt/jdk1.6.0_45/jre/lib/amd64:/opt/jdk1.6.0_45/jre/../lib/amd64:/usr/java/packages/lib/amd64:/usr/lib64:/lib64:/lib:/usr/lib" />
     <property name="src" value="/home/william/Grid-World/ImageReader" />
     <property name="java.specification.name" value="Java Platform API Specification" />
     <property name="java.class.version" value="50.0" />
-    <property name="ant.file.Jumper project" value="/home/william/Grid-World/ImageReader/build.xml" />
     <property name="sun.management.compiler" value="HotSpot 64-Bit Tiered Compilers" />
     <property name="os.version" value="3.13.0-48-generic" />
     <property name="ant.file" value="/home/william/Grid-World/ImageReader/build.xml" />
@@ -58,6 +57,7 @@
     <property name="java.ext.dirs" value="/opt/jdk1.6.0_45/jre/lib/ext:/usr/java/packages/lib/ext" />
     <property name="sun.boot.class.path" value="/opt/jdk1.6.0_45/jre/lib/resources.jar:/opt/jdk1.6.0_45/jre/lib/rt.jar:/opt/jdk1.6.0_45/jre/lib/sunrsasign.jar:/opt/jdk1.6.0_45/jre/lib/jsse.jar:/opt/jdk1.6.0_45/jre/lib/jce.jar:/opt/jdk1.6.0_45/jre/lib/charsets.jar:/opt/jdk1.6.0_45/jre/lib/modules/jdk.boot.jar:/opt/jdk1.6.0_45/jre/classes" />
     <property name="java.vendor" value="Sun Microsystems Inc." />
+    <property name="ant.file.ImageProcessor" value="/home/william/Grid-World/ImageReader/build.xml" />
     <property name="file.separator" value="/" />
     <property name="jar" value="/home/william/Grid-World/ImageReader/jar" />
     <property name="java.vendor.url.bug" value="http://java.sun.com/cgi-bin/bugreport.cgi" />
@@ -66,22 +66,8 @@
     <property name="sun.desktop" value="gnome" />
     <property name="sun.cpu.isalist" value="" />
   </properties>
-  <testcase classname="ImageTest" name="testFiles" time="0.0060" />
-  <system-out><![CDATA[/home/william/Grid-World/ImageReader/bmptest/1.bmp
-480054
-480054
-19
-400
-400
-true
-400
-true
-400
-true
-400
-true
-Test size
-ErrorTest over.
+  <testcase classname="ImageTest" name="testFiles" time="0.0050" />
+  <system-out><![CDATA[ErrorTest over.
 ]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>

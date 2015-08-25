@@ -15,11 +15,11 @@ import javax.swing.JOptionPane;
  * The implementation of this class is testable on the AP CS A and AB exams.
  */
 public class MazeBug extends Bug {
-	public Location next;
-	public boolean isEnd = false;
-	public Stack<Location> crossLocation = new Stack<Location>();
-	public Integer stepCount = 0;
-	boolean hasShown = false;//final message has been shown
+	private Location next;
+	private boolean isEnd = false;
+	private Stack<Location> crossLocation = new Stack<Location>();
+	private Integer stepCount = 0;
+	private boolean hasShown = false;//final message has been shown
     private int[] times = new int[4];
 
 	/**
@@ -30,16 +30,19 @@ public class MazeBug extends Bug {
 	 */
 	public MazeBug() {
 		setColor(Color.GREEN);
-	}
+        for (int i = 0; i < 4; ++i) {
+            times[i] = 1;
+        }
+    }
 
 	/**
 	 * Moves to the next location of the square.
 	 */
 	public void act() {
 		boolean willMove = canMove();
-		if (isEnd == true) {
+		if (isEnd) {
 		//to show step count when reach the goal		
-			if (hasShown == false) {
+			if (!hasShown) {
 				String msg = stepCount.toString() + " steps";
 				JOptionPane.showMessageDialog(null, msg);
 				hasShown = true;
@@ -74,8 +77,9 @@ public class MazeBug extends Bug {
 	 */
 	public ArrayList<Location> getValid(Location loc) {
 		Grid<Actor> gr = getGrid();
-		if (gr == null)
+		if (gr == null) {
 			return null;
+        }
 		ArrayList<Location> valid = new ArrayList<Location>();
         int[] directions = {Location.EAST, Location.WEST, Location.NORTH, Location.SOUTH};
         for (int dir: directions) {
@@ -102,13 +106,12 @@ public class MazeBug extends Bug {
 	 */
 	public void move() {
 		Grid<Actor> gr = getGrid();
-		if (gr == null)
+		if (gr == null) {
 			return;
+        }
 		Location loc = getLocation();
         ArrayList<Location> locs = getValid(loc);
-        Random r = new Random();
-        int n = r.nextInt(locs.size());
-        next = locs.get(n);
+        next = chooseLoc(locs);
 		if (gr.isValid(next)) {
 			setDirection(loc.getDirectionToward(next));
             crossLocation.push(loc);
@@ -118,17 +121,22 @@ public class MazeBug extends Bug {
             int dir = loc.getDirectionToward(next);
             ++times[dir / 90];
 			moveTo(next);
-		} else
+		} else { 
 			removeSelfFromGrid();
+        }
 		Flower flower = new Flower(getColor());
 		flower.putSelfInGrid(gr, loc);
 	}
 
     public Location chooseLoc(ArrayList<Location> locs) {
+        if (locs.size() == 0) {
+            return null;
+        }
         int count = 0;
         Location loc = getLocation();
+        Location next = null;
         for (int i = 0; i < locs.size(); ++i) {
-            Location next = locs.get(i);
+            next = locs.get(i);
             int dir = loc.getDirectionToward(next);
             count += times[dir / 90];
         }
@@ -138,10 +146,10 @@ public class MazeBug extends Bug {
         int pre = 0;
         int now = 0;
         for (int i = 0; i < locs.size(); ++i) {
-            Location next = locs.get(i);
+            next = locs.get(i);
             int dir = loc.getDirectionToward(next);
-            now = pre + dir;
-            if (n > pre && n <= now) {
+            now = pre + times[dir / 90];
+            if (n >= pre && n < now) {
                 result = next;
                 break;
             }
@@ -152,8 +160,9 @@ public class MazeBug extends Bug {
     
 	public void moveBack(Location backLoc) {
 		Grid<Actor> gr = getGrid();
-		if (gr == null)
+		if (gr == null) {
 			return;
+        }
         Location loc = getLocation();
         next = backLoc;
 		if (gr.isValid(next)) {
@@ -161,8 +170,9 @@ public class MazeBug extends Bug {
 			moveTo(next);
             int dir = (getDirection() + Location.HALF_CIRCLE) % 360;
             --times[dir / 90];
-		} else
+		} else {
 			removeSelfFromGrid();
+        }
 		Flower flower = new Flower(getColor());
 		flower.putSelfInGrid(gr, loc);
 	}
