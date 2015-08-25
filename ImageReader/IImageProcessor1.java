@@ -95,43 +95,43 @@ public class IImageProcessor1 implements IImageProcessor {
 
     //Create a image in green chanel from another image
     public Image showChanelG(Image srcImage) {
-        byte[] imgData = getImageData(srcImage);
-        int width = getWidth(imgData);
-        int height = getHeight(imgData);
-        int addr = getDataAddress(imgData);
-        int rowByteNum = width * 3;
-        if (rowByteNum % 4 != 0) {
-            rowByteNum = (rowByteNum / 4 + 1) * 4;
+        byte[] imgData1 = getImageData(srcImage);
+        int width1 = getWidth(imgData1);
+        int height1 = getHeight(imgData1);
+        int addr1 = getDataAddress(imgData1);
+        int rowByteNum1 = width1 * 3;
+        if (rowByteNum1 % 4 != 0) {
+            rowByteNum1 = (rowByteNum1 / 4 + 1) * 4;
         }
         //Each pixel is 3 bytes, 
-        for (int i = 0; i < height; ++i) {
-            for (int j = 0; j < width; ++j) {
+        for (int i = 0; i < height1; ++i) {
+            for (int j = 0; j < width1; ++j) {
                 //Set the chanel to 0 except green
-                imgData[addr + i * rowByteNum + j * 3] = 0;
-                imgData[addr + i * rowByteNum + j * 3 + 2] = 0;
+                imgData1[addr1 + i * rowByteNum1 + j * 3] = 0;
+                imgData1[addr1 + i * rowByteNum1 + j * 3 + 2] = 0;
             }
         }
-        return createImage(imgData);
+        return createImage(imgData1);
     }
 
     //Create a image in blue chanel from another image
     public Image showChanelB(Image srcImage) {
-        byte[] imgData = getImageData(srcImage);
-        int width = getWidth(imgData);
-        int height = getHeight(imgData);
-        int addr = getDataAddress(imgData);
-        int rowByteNum = width * 3;
-        if (rowByteNum % 4 != 0) {
-            rowByteNum = (rowByteNum / 4 + 1) * 4;
+        byte[] imgData2 = getImageData(srcImage);
+        int width2 = getWidth(imgData2);
+        int height2 = getHeight(imgData2);
+        int addr2 = getDataAddress(imgData2);
+        int rowByteNum2 = width2 * 3;
+        if (rowByteNum2 % 4 != 0) {
+            rowByteNum2 = (rowByteNum2 / 4 + 1) * 4;
         }
-        for (int i = 0; i < height; ++i) {
-            for (int j = 0; j < width; ++j) {
+        for (int i = 0; i < height2; ++i) {
+            for (int j = 0; j < width2; ++j) {
                 //Set the chanel to 0 except blue
-                imgData[addr + i * rowByteNum + j * 3 + 2] = 0;
-                imgData[addr + i * rowByteNum + j * 3 + 1] = 0;
+                imgData2[addr2 + i * rowByteNum2 + j * 3 + 2] = 0;
+                imgData2[addr2 + i * rowByteNum2 + j * 3 + 1] = 0;
             }
         }
-        return createImage(imgData);
+        return createImage(imgData2);
     }
     
     //Create a gray image from another image

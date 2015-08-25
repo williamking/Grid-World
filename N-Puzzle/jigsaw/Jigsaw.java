@@ -355,7 +355,7 @@ public class Jigsaw {
             r += Math.pow(Math.abs((i - 1) / dimension - (loc - 1) / dimension), 2) + Math.pow(Math.abs((i - 1) % dimension - (loc - 1) % dimension), 2);
         }
 		//jNode.setEstimatedValue(s * 6 + jNode.getNodeDepth() * 2 + h * 8 + r * 3);
-		jNode.setEstimatedValue(s * 2 + h * 5 + r * 2);
+		jNode.setEstimatedValue(s * 2 + h * 5 + r * 1);
 	}
 
 }

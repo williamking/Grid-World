@@ -60,6 +60,16 @@
         </java>
     </target>
 
+    <target name="runDemo" depends="jar">
+        <java classname="Runners.RunnerDemo" fork="yes">
+            <classpath>
+                <fileset dir="${jar}">
+                    <include name="result.jar"/>
+                </fileset>
+            </classpath>
+        </java>
+    </target>
+
     <target name="test" depends="compile">
         <junit printsummary="true">
             <classpath refid="junit.jar"/>
